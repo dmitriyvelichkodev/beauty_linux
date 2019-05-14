@@ -3,13 +3,14 @@ services:
   sdsd-postgres:
     ports:
       - 5433:5432
-    build: .
+    image: postgres:11.3-alpine
     environment:
       POSTGRES_USER: dmytro
       POSTGRES_PASSWORD: password
       POSTGRES_DB: books
     volumes:
       - ../volumes/postgres:/var/lib/postgresql/data:delegated
+      - # add one more volume for extension script
     deploy:
       resources:
         limits:
@@ -17,3 +18,4 @@ services:
           memory: 50M
       restart_policy:
         condition: on-failure
+    command: postgres && psql -U $POSTGRES_USER -d $POSTGRES_DB -a -f install_extenstions.sql
