@@ -1,0 +1,19 @@
+version: "3"
+services:
+  sdsd-postgres:
+    ports:
+      - 5433:5432
+    build: .
+    environment:
+      POSTGRES_USER: dmytro
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: books
+    volumes:
+      - ../volumes/postgres:/var/lib/postgresql/data:delegated
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
